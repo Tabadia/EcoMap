@@ -76,7 +76,7 @@ if (state === null) {
 var stateName = abbrState(state, 'name');
 document.getElementById('stateTitle').innerHTML = stateName;
 
-mapApiKey = "o0MgTYl5oKyKJC8hg6JFTVcRjxDdAzxX"
+mapApiKey = "XIrafQAAKpIourUn2VWelMfXz7WHAIe7"
 
 var map = L.map('map', {
     center: [43.93844, -120.55674],
@@ -189,7 +189,8 @@ function abbreviateNumber(value) {
     return newValue;
 }
 
-const apiKey = "5yTHxQr2TqVW9JenE4eFekolih26wYHS5rnJm3EF"
+const apiKey = "cndBJguN5EusydBJLXOaIh49PRK4Agmmz6AOQnv1"
+const apiKey2 = "5rkeiGzdiiTUpk4R9GhCAKOeXR3AdzQFfkW6C18B"
 
 async function getData(energy, infoType, urlParams) {
     const url = `https://api.eia.gov/v2/${energy}/${infoType}/data/?api_key=${apiKey}&${urlParams}`;
@@ -262,7 +263,7 @@ async function getSEDS(frequency, seriesID,) {
 }
 
 async function getAEO(frequency, seriesID) {
-    const url = `https://api.eia.gov/v2/aeo/2023/data/?api_key=${apiKey}&frequency=${frequency}&data[0]=value&facets[scenario][]=ref2023&facets[seriesId][]=${seriesID}&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=5000`
+    const url = `https://api.eia.gov/v2/aeo/2023/data/?api_key=${apiKey2}&frequency=${frequency}&data[0]=value&facets[scenario][]=ref2023&facets[seriesId][]=${seriesID}&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=5000`
     const response = await fetch(url);
     const json = await response.text();
     return JSON.parse(json);
@@ -318,18 +319,16 @@ async function showProject(seriesID, frequency, chartArray, dataIndex) {
     const results = await getAEO(frequency, seriesID)
     console.log(results)
     let projections = 0;
-    // let units = results.response.data[0].unit;
-    // let title = results.response.data[0].seriesDescription;
     results.response.data.forEach(record => {
         projections += (record.value || 0);
     });
     results.response.data.forEach(record => {
-        if (record.period >= 2000) {
-            if (chartArray[record.period - 2000] <= 0) {
-                chartArray[record.period - 2000] = record.value;
+        if (record.period >= 2022) {
+            if (chartArray[record.period - 2022] <= 0) {
+                chartArray[record.period - 2022] = record.value;
             }
             else {
-                chartArray[record.period - 2000] = (record.value);
+                chartArray[record.period - 2022] = (record.value);
             }
         }
     })
@@ -351,11 +350,10 @@ showRenew("HYTCB", "annual", hydroConsumption, 1, 2);
 showRenew("BMTCB", "annual", biomassConsumption, 1, 3);
 showRenew("GETCB", "annual", geothermalConsumption, 1, 4);
 
-showProject("sup_prd_NA_NA_cl_NA_NA_millton", "annual", coalProjection, 0);
-showProject("sup_prd_NA_NA_cr_NA_usa_millbrlpdy", "annual", oilAndGasProjection, 1);
-showProject("sup_prd_ten_NA_nuc_NA_usa_qbtu", "annual", nuclearProjection, 2);
-showProject("sup_prd_ten_NA_bms_NA_usa_qbtu", "annual", biomassProjection, 3);
-showProject("sup_prd_ten_NA_hyd_cnv_usa_qbtu", "annual", hydroProjection, 4);
+showProject("sup_prd_NA_NA_cr_NA_usa_millbrlpdy", "annual", oilAndGasProjection, 0);
+showProject("sup_prd_ten_NA_nuc_NA_usa_qbtu", "annual", nuclearProjection, 1);
+showProject("sup_prd_ten_NA_bms_NA_usa_qbtu", "annual", biomassProjection, 2);
+showProject("sup_prd_ten_NA_hyd_cnv_usa_qbtu", "annual", hydroProjection, 3);
 
 async function stateEmissions() {
     const energy = "co2-emissions"
@@ -671,11 +669,6 @@ var projectionChart = new Chart(document.getElementById('projections'), {
     data: {
         labels: [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2049, 2050],
         datasets: [{
-            data: coalProjection,
-            label: "Coal",
-            borderColor: "#023858",
-            fill: false
-        }, {
             data: oilAndGasProjection,
             label: "Oil, Gas & Crude Oil",
             borderColor: "#04508d",
