@@ -16,29 +16,29 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
-    <header class="p-4 sm:mb-4">
+    <header class="p-4 pt-6">
         <div class="flex justify-center align-middle">
-            <a href="../"><img class="w-96 animate-fadeS" src="../branding/png/logo-no-background.png" alt=""></a>
+            <a href="../"><img id="headerImg" class="w-96 animate-fadeL border-b-4 rounded-sm pb-3 border-main" src="../branding/png/logo-no-background.png" alt=""></a>
         </div>
     </header>
     <main>
         <div class="flex justify-center ">
             <div class="w-full md:w-2/3 m-2 sm:m-4 flex flex-col md:flex-row justify-center ">
-                <div class="md:w-1/2 p-4 text-center flex-col justify-center animate-fadeS">
-                    <div class="flex flex-col shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded mb-4">
+                <div class="md:w-1/2 px-4 pt-4 text-center flex-col justify-center animate-fadeL">
+                    <div class="flex flex-col shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white rounded mb-4">
                         <div class="m-2">
                             <button onclick="location.reload();" id="stateTitle" class="text-6xl text-bold uppercase no-underline">State</button>
                         </div>
                         <div class="flex flex-col justify-center px-2 pb-4">
                             <div id="labels" class="ml-2 mb-1 flex flex-wrap justify-center">
-                                <div class="flex flex-row items-center mx-2"><div class="bg-key1 w-4 h-4 mr-1"></div><div>Hydroelectric</div></div>
-                                <div class="flex flex-row items-center mx-2"><div class="bg-key2 w-4 h-4 mr-1"></div><div>Biomass</div></div>
-                                <div class="flex flex-row items-center mx-2"><div class="bg-key3 w-4 h-4 mr-1"></div><div>Natural Gas</div></div>
-                                <div class="flex flex-row items-center mx-2"><div class="bg-key4 w-4 h-4 mr-1"></div><div>Wind</div></div>
-                                <div class="flex flex-row items-center mx-2"><div class="bg-key5 w-4 h-4 mr-1"></div><div>Solar</div></div>
-                                <div class="flex flex-row items-center mx-2"><div class="bg-key6 w-4 h-4 mr-1"></div><div>Geothermal</div></div>
-                                <div class="flex flex-row items-center mx-2"><div class="bg-key7 w-4 h-4 mr-1"></div><div>Nuclear</div></div>
-                                <div class="flex flex-row items-center mx-2"><div class="bg-gray-500 bg-opacity-80 w-4 h-4 mr-1"></div><div>Other</div></div>
+                                <div class="flex flex-row items-center mx-2"><div class="bg-key1 w-3 h-3 mr-1"></div><div>Hydroelectric</div></div>
+                                <div class="flex flex-row items-center mx-2"><div class="bg-key2 w-3 h-3 mr-1"></div><div>Biomass</div></div>
+                                <div class="flex flex-row items-center mx-2"><div class="bg-key3 w-3 h-3 mr-1"></div><div>Natural Gas</div></div>
+                                <div class="flex flex-row items-center mx-2"><div class="bg-key4 w-3 h-3 mr-1"></div><div>Wind</div></div>
+                                <div class="flex flex-row items-center mx-2"><div class="bg-key5 w-3 h-3 mr-1"></div><div>Solar</div></div>
+                                <div class="flex flex-row items-center mx-2"><div class="bg-key6 w-3 h-3 mr-1"></div><div>Geothermal</div></div>
+                                <div class="flex flex-row items-center mx-2"><div class="bg-key7 w-3 h-3 mr-1"></div><div>Nuclear</div></div>
+                                <div class="flex flex-row items-center mx-2"><div class="bg-gray-500 bg-opacity-80 w-3 h-3 mr-1"></div><div>Other</div></div>
                             </div>
                             <div class="flex justify-center items-center">
                                 <div id="map" style="width: 50em; height: 30em;">
@@ -46,8 +46,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded">
-                        <div class="font-bold text-4xl mb-2">
+                    <div class="p-4 h-96 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white rounded mb-4">
+                        <canvas id="consumption"></canvas>
+                    </div>
+                    <div class="p-4 h-96 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white rounded">
+                        <canvas id="renewable"></canvas>
+                    </div>
+                </div>
+                <div class="md:w-1/2 p-4 text-center flex-col justify-center animate-fadeL">
+                    <div class="p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white rounded mb-4">
+                        <div class="font-bold text-5xl mb-2">
                             <span id="date"></span> Statistics
                         </div>
                         <div class="text-xl text-left">
@@ -105,16 +113,11 @@
                         </div>
                         
                     </div>
-                </div>
-                <div class="md:w-1/2 px-4 pt-4 text-center flex-col justify-center animate-fadeS">
-                    <div class="p-4 h-96 shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded mb-4">
-                        <canvas id="consumption"></canvas>
-                    </div>
-                    <div class="p-4 h-96 shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded mb-4">
-                        <canvas id="renewable"></canvas>
-                    </div>
-                    <div class="p-4 h-96 shadow-[0_3px_10px_rgb(0,0,0,0.2)] rounded mb-4">
+                    <div class="p-4 h-96 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white rounded mb-4">
                         <canvas id="emissions"></canvas>
+                    </div>
+                    <div class="p-4 h-96 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white rounded mb-4">
+                        <canvas id="projections"></canvas>
                     </div>
                 </div>
             </div>

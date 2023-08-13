@@ -154,6 +154,12 @@ var windConsumption = Array.from({ length: 23 }, _ => 0);
 var biomassConsumption = Array.from({ length: 23 }, _ => 0);
 var geothermalConsumption = Array.from({ length: 23 }, _ => 0);
 
+var hydroProjection = Array.from({ length: 28 }, _ => 0);
+var coalProjection = Array.from({ length: 28 }, _ => 0);
+var biomassProjection = Array.from({ length: 28 }, _ => 0);
+var oilAndGasProjection = Array.from({ length: 28 }, _ => 0);
+var nuclearProjection = Array.from({ length: 28 }, _ => 0);
+
 var co2Emissions = {}
 
 function randomColor(brightness) {
@@ -255,6 +261,13 @@ async function getSEDS(frequency, seriesID,) {
     return JSON.parse(json);
 }
 
+async function getAEO(frequency, seriesID) {
+    const url = `https://api.eia.gov/v2/aeo/2023/data/?api_key=${apiKey}&frequency=${frequency}&data[0]=value&facets[scenario][]=ref2023&facets[seriesId][]=${seriesID}&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=5000`
+    const response = await fetch(url);
+    const json = await response.text();
+    return JSON.parse(json);
+}
+
 async function showConsume(seriesID, frequency, chartArray, btuConvers, dataIndex) {
     const results = await getSEDS(frequency, seriesID)
     let consumptions = 0;
@@ -301,6 +314,29 @@ async function showRenew(seriesID, frequency, chartArray, btuConvers, dataIndex)
     renewableChart.update();
 }
 
+async function showProject(seriesID, frequency, chartArray, dataIndex) {
+    const results = await getAEO(frequency, seriesID)
+    console.log(results)
+    let projections = 0;
+    // let units = results.response.data[0].unit;
+    // let title = results.response.data[0].seriesDescription;
+    results.response.data.forEach(record => {
+        projections += (record.value || 0);
+    });
+    results.response.data.forEach(record => {
+        if (record.period >= 2000) {
+            if (chartArray[record.period - 2000] <= 0) {
+                chartArray[record.period - 2000] = record.value;
+            }
+            else {
+                chartArray[record.period - 2000] = (record.value);
+            }
+        }
+    })
+    projectionChart.data.datasets[dataIndex].data = chartArray;
+    projectionChart.update();
+}
+
 `https://services7.arcgis.com/FGr1D95XCGALKXqM/arcgis/rest/services/Power_Plants_Testing/FeatureServer/0/query?where=1%3D1&outFields=Plant_Code,Plant_Name,sector_name,State,Longitude,Latitude&returnGeometry=false&outSR=4326&f=json`
 
 showConsume("NGTCB", "annual", gasConsumption, 1, 0);
@@ -314,6 +350,12 @@ showRenew("SOTCB", "annual", solarConsumption, 1, 1);
 showRenew("HYTCB", "annual", hydroConsumption, 1, 2);
 showRenew("BMTCB", "annual", biomassConsumption, 1, 3);
 showRenew("GETCB", "annual", geothermalConsumption, 1, 4);
+
+showProject("sup_prd_NA_NA_cl_NA_NA_millton", "annual", coalProjection, 0);
+showProject("sup_prd_NA_NA_cr_NA_usa_millbrlpdy", "annual", oilAndGasProjection, 1);
+showProject("sup_prd_ten_NA_nuc_NA_usa_qbtu", "annual", nuclearProjection, 2);
+showProject("sup_prd_ten_NA_bms_NA_usa_qbtu", "annual", biomassProjection, 3);
+showProject("sup_prd_ten_NA_hyd_cnv_usa_qbtu", "annual", hydroProjection, 4);
 
 async function stateEmissions() {
     const energy = "co2-emissions"
@@ -606,6 +648,75 @@ var renewableChart = new Chart(document.getElementById('renewable'), {
                 title: {
                     display: true,
                     text: 'British Thermal Units',
+                    type: 'logarithmic',
+                },
+                ticks: {
+                    callback: function (value, index, values) {
+                        return abbreviateNumber(value);
+                    }
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Years'
+                }
+            }
+        }
+    }
+});
+
+var projectionChart = new Chart(document.getElementById('projections'), {
+    type: 'line',
+    data: {
+        labels: [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2049, 2050],
+        datasets: [{
+            data: coalProjection,
+            label: "Coal",
+            borderColor: "#023858",
+            fill: false
+        }, {
+            data: oilAndGasProjection,
+            label: "Oil, Gas & Crude Oil",
+            borderColor: "#04508d",
+            fill: false
+        }, {
+            data: nuclearProjection,
+            label: "Nuclear",
+            borderColor: "#3690c0",
+            fill: false
+        }, {
+            data: biomassProjection,
+            label: "Biomass",
+            borderColor: "#74a9cf",
+            fill: false
+        }, {
+            data: hydroProjection,
+            label: "Hydropower",
+            borderColor: "#a6bddb",
+            fill: false
+        },
+        ]
+    },
+    options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'United States Energy Projections',
+            },
+            legend: {
+                labels: {
+                    boxWidth: 2,
+                }
+            },
+        },
+        scales: {
+            y: {
+                title: {
+                    display: true,
+                    text: '',
                     type: 'logarithmic',
                 },
                 ticks: {
