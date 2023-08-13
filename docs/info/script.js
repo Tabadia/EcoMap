@@ -124,6 +124,9 @@ async function getStateMap() {
     if (state == "AK") {
         map.flyTo([64.55608, -152.72149], 3.5)
     }
+    else if (state == "CO") {
+        map.flyTo([39.5501, -105.7821], 6)
+    }
     else {
         // console.log(json);
         map.flyTo([mapJson.position.lat, mapJson.position.lon])
