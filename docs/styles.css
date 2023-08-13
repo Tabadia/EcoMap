@@ -1286,6 +1286,28 @@ html {
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
+.text-key5 {
+  color: #00d0d866;
+}
+
+.text-key3 {
+  color: #0083a666;
+}
+
+.text-key2 {
+  color: #00608066;
+}
+
+.text-secondary {
+  --tw-text-opacity: 1;
+  color: rgb(11 164 193 / var(--tw-text-opacity));
+}
+
+.text-main {
+  --tw-text-opacity: 1;
+  color: rgb(67 139 197 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }
