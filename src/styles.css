@@ -1,0 +1,57 @@
+/* Add custom css here */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Jaldi&display=swap');
+
+.state {
+    transition: fill .4s ease;
+    transition: transform 500ms ease-in-out;
+}
+
+.state:hover {
+    transform: scale(1.01);
+}
+
+.progress-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background:
+        radial-gradient(closest-side, white 80%, transparent 80% 100%),
+        conic-gradient(rgb(11 164 193) 20%, rgb(193 250 255) 0);
+}
+
+.progress-bar::before {
+    content: attr(data-before);
+}
+
+
+@layer base {
+
+    a {
+        @apply text-secondary;
+        @apply underline;
+    }
+
+    a:hover {
+        @apply text-key2;
+    }
+
+    .state {
+        @apply fill-secondary;
+    }
+
+    .state:hover {
+        @apply fill-main;
+    }
+
+    html {
+        @apply text-main;
+        @apply font-jaldi
+    }
+}

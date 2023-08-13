@@ -1,0 +1,206 @@
+[
+  {
+    "State": "Texas",
+    "renewableGen": 157
+  },
+  {
+    "State": "Illinois",
+    "renewableGen": 117.1
+  },
+  {
+    "State": "California",
+    "renewableGen": 97.4
+  },
+  {
+    "State": "Washington",
+    "renewableGen": 90.8
+  },
+  {
+    "State": "Pennsylvania",
+    "renewableGen": 83.8
+  },
+  {
+    "State": "New York",
+    "renewableGen": 66.8
+  },
+  {
+    "State": "North Carolina",
+    "renewableGen": 61.6
+  },
+  {
+    "State": "Alabama",
+    "renewableGen": 61.4
+  },
+  {
+    "State": "South Carolina",
+    "renewableGen": 59.8
+  },
+  {
+    "State": "Georgia",
+    "renewableGen": 48.2
+  },
+  {
+    "State": "Tennessee",
+    "renewableGen": 46.7
+  },
+  {
+    "State": "Arizona",
+    "renewableGen": 46.2
+  },
+  {
+    "State": "Michigan",
+    "renewableGen": 45.5
+  },
+  {
+    "State": "Florida",
+    "renewableGen": 43
+  },
+  {
+    "State": "Oregon",
+    "renewableGen": 39.7
+  },
+  {
+    "State": "Iowa",
+    "renewableGen": 38.5
+  },
+  {
+    "State": "Virginia",
+    "renewableGen": 35.8
+  },
+  {
+    "State": "Oklahoma",
+    "renewableGen": 35.6
+  },
+  {
+    "State": "Kansas",
+    "renewableGen": 34.4
+  },
+  {
+    "State": "Minnesota",
+    "renewableGen": 30.2
+  },
+  {
+    "State": "New Jersey",
+    "renewableGen": 30.1
+  },
+  {
+    "State": "Ohio",
+    "renewableGen": 22
+  },
+  {
+    "State": "Louisiana",
+    "renewableGen": 20.6
+  },
+  {
+    "State": "Arkansas",
+    "renewableGen": 19
+  },
+  {
+    "State": "Connecticut",
+    "renewableGen": 18.7
+  },
+  {
+    "State": "Maryland",
+    "renewableGen": 18.6
+  },
+  {
+    "State": "Colorado",
+    "renewableGen": 18.6
+  },
+  {
+    "State": "Nebraska",
+    "renewableGen": 17.7
+  },
+  {
+    "State": "North Dakota",
+    "renewableGen": 16.9
+  },
+  {
+    "State": "Wisconsin",
+    "renewableGen": 15.1
+  },
+  {
+    "State": "South Dakota",
+    "renewableGen": 14.3
+  },
+  {
+    "State": "Mississippi",
+    "renewableGen": 13.6
+  },
+  {
+    "State": "Nevada",
+    "renewableGen": 12.8
+  },
+  {
+    "State": "Montana",
+    "renewableGen": 12.8
+  },
+  {
+    "State": "Missouri",
+    "renewableGen": 12.8
+  },
+  {
+    "State": "New Mexico",
+    "renewableGen": 12.5
+  },
+  {
+    "State": "New Hampshire",
+    "renewableGen": 12.3
+  },
+  {
+    "State": "Idaho",
+    "renewableGen": 11.8
+  },
+  {
+    "State": "Wyoming",
+    "renewableGen": 9.4
+  },
+  {
+    "State": "Indiana",
+    "renewableGen": 9.2
+  },
+  {
+    "State": "Maine",
+    "renewableGen": 7.2
+  },
+  {
+    "State": "Kentucky",
+    "renewableGen": 5.3
+  },
+  {
+    "State": "Utah",
+    "renewableGen": 5.3
+  },
+  {
+    "State": "Massachusetts",
+    "renewableGen": 3.5
+  },
+  {
+    "State": "West Virginia",
+    "renewableGen": 3.3
+  },
+  {
+    "State": "Vermont",
+    "renewableGen": 2.1
+  },
+  {
+    "State": "Alaska",
+    "renewableGen": 1.9
+  },
+  {
+    "State": "Hawaii",
+    "renewableGen": 1.7
+  },
+  {
+    "State": "Rhode Island",
+    "renewableGen": 0.7
+  },
+  {
+    "State": "Delaware",
+    "renewableGen": 0.1
+  },
+  {
+    "State": "DC",
+    "renewableGen": 0.1
+  }
+]

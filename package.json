@@ -1,0 +1,21 @@
+{
+  "name": "hackathon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tailwind.config.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tailwindcss build src/styles.css -o docs/styles.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  },
+  "dependencies": {
+    "chart.js": "^4.3.3",
+    "d3": "^7.8.5",
+    "env": "^0.0.2"
+  }
+}
