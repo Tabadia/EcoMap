@@ -441,7 +441,7 @@ a {
 }
 
 a:hover {
-  color: #006080CC;
+  color: #00608066;
 }
 
 .state {
@@ -632,8 +632,44 @@ html {
   position: relative;
 }
 
+.bottom-0 {
+  bottom: 0px;
+}
+
+.left-0 {
+  left: 0px;
+}
+
+.right-0 {
+  right: 0px;
+}
+
+.left-1 {
+  left: 0.25rem;
+}
+
+.left-6 {
+  left: 1.5rem;
+}
+
+.left-20 {
+  left: 5rem;
+}
+
+.left-2 {
+  left: 0.5rem;
+}
+
+.-z-10 {
+  z-index: -10;
+}
+
 .col-span-2 {
   grid-column: span 2 / span 2;
+}
+
+.m-1 {
+  margin: 0.25rem;
 }
 
 .m-2 {
@@ -661,6 +697,10 @@ html {
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
 }
 
 .mb-10 {
@@ -839,6 +879,26 @@ html {
   width: 100%;
 }
 
+.w-1\/4 {
+  width: 25%;
+}
+
+.w-1\/2 {
+  width: 50%;
+}
+
+.w-1\/3 {
+  width: 33.333333%;
+}
+
+.w-7 {
+  width: 1.75rem;
+}
+
+.w-1\/6 {
+  width: 16.666667%;
+}
+
 .max-w-lg {
   max-width: 32rem;
 }
@@ -853,6 +913,20 @@ html {
 
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+@keyframes fadeS {
+  0%, 50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fadeS {
+  animation: fadeS 0.5s 0s;
 }
 
 @keyframes pulse {
@@ -1034,31 +1108,31 @@ html {
 }
 
 .bg-key1 {
-  background-color: #004060CC;
+  background-color: #00406066;
 }
 
 .bg-key2 {
-  background-color: #006080CC;
+  background-color: #00608066;
 }
 
 .bg-key3 {
-  background-color: #0083a6CC;
+  background-color: #0083a666;
 }
 
 .bg-key4 {
-  background-color: #00a0b9CC;
+  background-color: #00a0b966;
 }
 
 .bg-key5 {
-  background-color: #00d0d8CC;
+  background-color: #00d0d866;
 }
 
 .bg-key6 {
-  background-color: #00ffffCC;
+  background-color: #00ffff66;
 }
 
 .bg-key7 {
-  background-color: #CCffffCC;
+  background-color: #CCffff66;
 }
 
 .bg-red-600 {
@@ -1089,6 +1163,11 @@ html {
 
 .p-6 {
   padding: 1.5rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .px-4 {
@@ -1257,6 +1336,10 @@ html {
     margin: 1rem;
   }
 
+  .sm\:m-5 {
+    margin: 1.25rem;
+  }
+
   .sm\:mb-4 {
     margin-bottom: 1rem;
   }
@@ -1269,6 +1352,14 @@ html {
     width: 50%;
   }
 
+  .sm\:w-2\/3 {
+    width: 66.666667%;
+  }
+
+  .sm\:w-7\/12 {
+    width: 58.333333%;
+  }
+
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1279,6 +1370,10 @@ html {
 }
 
 @media (min-width: 768px) {
+  .md\:visible {
+    visibility: visible;
+  }
+
   .md\:w-1\/2 {
     width: 50%;
   }

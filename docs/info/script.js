@@ -105,17 +105,34 @@ map.boxZoom.disable();
 map.keyboard.disable();
 map.dragging.disable();
 
+stateArr = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Federated States of Micronesia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+
 async function getStateMap() {
     const url = `https://api.tomtom.com/search/2/geocode/${state}, United States.json?key=${mapApiKey}`
     const response = await fetch(url);
     var json = await response.json();
-    json = json.results[0]
-    // console.log(json);
-    map.flyTo([json.position.lat, json.position.lon])
-    map.fitBounds([
-        [json.boundingBox.topLeftPoint.lat, json.boundingBox.topLeftPoint.lon],
-        [json.boundingBox.btmRightPoint.lat, json.boundingBox.btmRightPoint.lon]
-    ])
+    var mapJson = json.results[0]
+    for (let i = 0; i < json.results.length; i++) {
+        if (stateArr.includes(json.results[i].address.countrySubdivisionName)) {
+            if (!('countrySecondarySubdivision' in json.results[i].address) || (json.results[i].type != "Goegraphy")) {
+                mapJson = json.results[i]
+                break;
+            }
+        }
+    }
+
+    if (state == "AK") {
+        map.flyTo([64.55608, -152.72149], 3.5)
+    }
+    else {
+        // console.log(json);
+        map.flyTo([mapJson.position.lat, mapJson.position.lon])
+        map.flyToBounds([
+            [mapJson.viewport.topLeftPoint.lat, mapJson.viewport.topLeftPoint.lon],
+            [mapJson.viewport.btmRightPoint.lat, mapJson.viewport.btmRightPoint.lon]
+        ])
+    }
+
 }
 getStateMap();
 
@@ -198,7 +215,7 @@ async function getMapData() {
                 color = "#ccffff";
                 break;
         }
-        return { radius: Math.sqrt(totalMw) * 1000, fillColor: color, stroke: false, fillOpacity: .8 }
+        return { radius: Math.sqrt(totalMw) * 1000, fillColor: color, stroke: false, fillOpacity: .4 }
         // return totalMw > 50 ? { radius: Math.sqrt(totalMw) * 1000, fillColor: color, stroke: false, fillOpacity: .8 } : { radius: 0, fillColor: color, stroke: false, fillOpacity: 0 };
     }
     objs.forEach(obj =>
@@ -302,28 +319,28 @@ async function stateEmissions() {
     //frequency=annual&data[0]=emissions&facets[stateId][]=OR&start=2000&end=2018&sort[0][column]=emissions&sort[0][direction]=desc&offset=0&length=2000
     const urlParams = `frequency=${frequency}&data[0]=${data}&facets[stateId][]=${state}&start=${start}&end=${end}&sort[0][column]=emissions&sort[0][direction]=desc&offset=0&length=2000`
     const results = await getData(energy, infoType, urlParams);
-    console.log(results)
+    // console.log(results)
     results.response.data.forEach(record => {
         if (record.emissions > 0) {
             if (record['fuel-name'] in co2Emissions) {
-                console.log(record.emissions + ", " + record['fuel-name'])
+                // console.log(record.emissions + ", " + record['fuel-name'])
                 co2Emissions[record['fuel-name']][record.period - 2000] += record.emissions;
             }
             else {
                 co2Emissions[record['fuel-name']] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                console.log(record.emissions + ", " + record['fuel-name'])
+                // console.log(record.emissions + ", " + record['fuel-name'])
                 co2Emissions[record['fuel-name']][record.period - 2000] = record.emissions;
             }
         }
     });
-    console.log(co2Emissions)
-    // console.log(Object.entries(co2Emissions))
-    for (let [key, value] of Object.entries(co2Emissions)) {
 
+    arr = Object.entries(co2Emissions).sort((a, b) => a[1].reduce((a, b) => a + b, 0) < b[1].reduce((a, b) => a + b, 0) ? 1 : -1);
+
+    for (let [key, value] of arr) {
         emissionsChart.data.datasets.push({
             data: value,
             label: key,
-            borderColor: randomColor(25),
+            borderColor: "Gray",
         });
     }
     emissionsChart.data.datasets.push({
@@ -339,9 +356,16 @@ async function stateRanking() {
     const energy = "electricity"
     const infoType = "state-electricity-profiles/summary"
     const frequency = "annual"
-    const start = "2021"
-    const urlParams = `frequency=${frequency}&data[0]=average-retail-price&data[1]=average-retail-price-rank&data[2]=carbon-dioxide&data[3]=carbon-dioxide-lbs&data[4]=carbon-dioxide-rank&data[5]=carbon-dioxide-rank-lbs&data[6]=net-generation&data[7]=net-generation-rank&data[8]=prime-source&data[9]=total-retail-sales&data[10]=total-retail-sales-rank&facets[stateID][]=${state}&start=${start}&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=2000`
-    const results = await getData(energy, infoType, urlParams);
+    var start = "2025"
+    var urlParams = `frequency=${frequency}&data[0]=average-retail-price&data[1]=average-retail-price-rank&data[2]=carbon-dioxide&data[3]=carbon-dioxide-lbs&data[4]=carbon-dioxide-rank&data[5]=carbon-dioxide-rank-lbs&data[6]=net-generation&data[7]=net-generation-rank&data[8]=prime-source&data[9]=total-retail-sales&data[10]=total-retail-sales-rank&facets[stateID][]=${state}&start=${start}&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=2000`
+    var results = await getData(energy, infoType, urlParams);
+    while (results.response.data.length == 0) {
+        // console.log(results.response.data.length + ", " + start)
+        start = parseInt(start) - 1 + "";
+        urlParams = `frequency=${frequency}&data[0]=average-retail-price&data[1]=average-retail-price-rank&data[2]=carbon-dioxide&data[3]=carbon-dioxide-lbs&data[4]=carbon-dioxide-rank&data[5]=carbon-dioxide-rank-lbs&data[6]=net-generation&data[7]=net-generation-rank&data[8]=prime-source&data[9]=total-retail-sales&data[10]=total-retail-sales-rank&facets[stateID][]=${state}&start=${start}&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=2000`
+        results = await getData(energy, infoType, urlParams);
+    }
+    // console.log(results);
     let res = results.response.data[0];
     $('#date').html(res['period'])
     $('#primeSource').html(res['prime-source'])
@@ -396,27 +420,27 @@ var consumptionChart = new Chart(document.getElementById('consumption'), {
         datasets: [{
             data: gasConsumption,
             label: "Natural Gas",
-            borderColor: "#003f5c",
+            borderColor: "#023858",
             fill: false
         }, {
             data: coalConsumption,
             label: "Coal",
-            borderColor: "#58508d",
+            borderColor: "#04508d",
             fill: false
         }, {
             data: nuclearConsumption,
             label: "Nuclear",
-            borderColor: "#bc5090",
+            borderColor: "#3690c0",
             fill: false
         }, {
             data: petrolConsumption,
             label: "Petroleum",
-            borderColor: "#ff6361",
+            borderColor: "#74a9cf",
             fill: false
         }, {
             data: renewableConsumption,
             label: "Renewable",
-            borderColor: "#ffa600",
+            borderColor: "#a6bddb",
             fill: false
         },
         ]
@@ -475,6 +499,7 @@ var emissionsChart = new Chart(document.getElementById('emissions'), {
                 labels: {
                     boxWidth: 2,
                     filter: function (item, data) {
+                        const colors = ["#023858", "#04508d", "#3690c0", "#74a9cf", "#a6bddb"]
                         // console.log(data.datasets[item.datasetIndex])
                         var peakMin = 0;
                         for (var i = 0; i < data.datasets[4].data.length; i++) {
@@ -490,7 +515,8 @@ var emissionsChart = new Chart(document.getElementById('emissions'), {
 
                         // console.log(peak + " , " + data.datasets[item.datasetIndex].label + ", " + peakMin)
                         if (peak >= peakMin || data.datasets[item.datasetIndex].label == "Other") {
-                            return true; //only show when the label is cash
+                            data.datasets[item.datasetIndex].borderColor = colors[item.datasetIndex]
+                            return true;
                         }
                         else {
                             data.datasets[item.datasetIndex].borderColor = "Gray";
@@ -530,27 +556,27 @@ var renewableChart = new Chart(document.getElementById('renewable'), {
         datasets: [{
             data: windConsumption,
             label: "Wind",
-            borderColor: "#488f31",
+            borderColor: "#023858",
             fill: false
         }, {
             data: hydroConsumption,
             label: "Hydropower",
-            borderColor: "#a5a73f",
+            borderColor: "#04508d",
             fill: false
         }, {
             data: solarConsumption,
             label: "Solar",
-            borderColor: "#f4bd6a",
+            borderColor: "#3690c0",
             fill: false
         }, {
             data: biomassConsumption,
             label: "Biomass",
-            borderColor: "#eb8050",
+            borderColor: "#74a9cf",
             fill: false
         }, {
             data: geothermalConsumption,
             label: "Geothermal",
-            borderColor: "#de425b",
+            borderColor: "#a6bddb",
             fill: false
         },
         ]
