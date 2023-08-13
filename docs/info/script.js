@@ -114,7 +114,7 @@ async function getStateMap() {
     var mapJson = json.results[0]
     for (let i = 0; i < json.results.length; i++) {
         if (stateArr.includes(json.results[i].address.countrySubdivisionName)) {
-            if (!('countrySecondarySubdivision' in json.results[i].address) || (json.results[i].type != "Goegraphy")) {
+            if (!('countrySecondarySubdivision' in json.results[i].address) /*|| (json.results[i].type != "Goegraphy")*/) {
                 mapJson = json.results[i]
                 break;
             }
@@ -126,6 +126,9 @@ async function getStateMap() {
     }
     else if (state == "CO") {
         map.flyTo([39.5501, -105.7821], 6)
+    }
+    else if (state == "HI") {
+        map.flyTo([19.74175, -155.844437], 6)
     }
     else {
         // console.log(json);
